@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title><%= title %></title>
+    <script>
+        var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+        function EndElection() {
+            let EID = <%= id %>;
+            fetch(`/elections/${EID}/end`, {
+                method: "put",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify({
+                    "_csrf":token,
+                })
+            }).then((res)=>{
+                if (res.ok) {
+                    window.location.replace(`/elections/${EID}`);
+                }
+            }).catch((err)=> console.error(err))
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <%- include('header.ejs') %>
+    <div class="rounded-lg px-6 py-2">
+    <% if (messages && messages.error && messages.error.length > 0) { %>
+        <% for(var i=0; i<messages.error.length; i++) { %>
+            <p class="bg-purple-100 my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
+        <% } %>
+    <% } %>
+    </div>
+    <div class="flex gap-1 bg-blue-300 shadow-md w-fit p-3 mx-10 mt-6 bg-gray-50">   
+        <a href="/elections" class="text-black hover:text-sky-600 text-xl font-medium font-light">Home</a>
+        <span class="text-black hover:text-sky-600 text-xl font-medium font-light">></span>
+    </div>
+    <div class="my-6 mx-10">
+        <h3 class="text-4xl my-4 font-medium bg-sky-100 p-3 uppercase text-center shadow-md font-light"><%= title %></h3>
+        <% if (launched) { %>
+            <div class="py-4">                
+                <h4 class="text-2xl my-2 font-medium">The election has launched, and voters can access this URL:</h4> 
+                <a href="/onlinelection/<%= customurl %>/" class="py-1 hover:text-sky-800 text-green-900">https://localhost:3000/onlinelection/<%= customurl %></a>
+            </div>
+        <% } %>
+        <div class="mt-4">            
+            <% if (!launched) { %>
+                <div class="mt-6 w-fit bg-blue-100 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-orange-200 hover:text-white uppercase">
+                    <a href="/elections/<%= id %>/questions" class="py-1 hover:text-white text-black">Manage questions</a>
+                </div> 
+            <% } %>
+            <h2 class="my-2 text-lg text-black flex gap-1">Your election has <span class="text-purple-600"> <%= TQ %> </span> questions in the ballot</h2>
+        </div>
+        <div class="mb-8 bt-4">
+            <div class="flex gap-10">
+                <div class="mt-6 w-fit bg-blue-100 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-orange-200 hover:text-white uppercase">
+                   <a href="/elections/<%= id %>/voters" class="py-1 hover:text-white text-black">Manage voters</a>
+                </div> 
+                <div class="mt-6 w-fit bg-blue-100 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-orange-200 hover:text-white uppercase">
+                   <a href="/elections/<%= id %>/votedornot" class="py-1 hover:text-white text-black">NO.OF VOTERS VOTED</a>
+                </div>  
+            </div>
+            <h2 class="my-2 text-lg text-black flex gap-1">Your election has <span class="text-purple-600"> <%= NV %> </span> registered voters.</h2>
+        </div>
+        <div class="mb-6 bt-4">
+                       
+        </div>
+        <% if (!launched) { %>
+            <div class="bg-red-800 rounded w-fit px-4 py-1 hover:bg-blue-600">
+                <a href="/elections/<%= id %>/checkbeforelaunch" class="text-white">Launch election</a>
+            </div>
+        <% } %>
+        <% if (launched) { %>
+            <div class="flex gap-2">
+                <div class="mt-6 w-fit bg-green-200 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-red-100 hover:text-white uppercase">
+                    <a href="/onlinelection/<%= customurl %>/previewresult" class="text-black">Preview results</a>
+                </div>
+                <button onclick="EndElection()" class="mt-6 w-fit bg-yellow-200 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-orange-200 hover:text-white uppercase">
+                    <p class="text-black">End election</p>
+                </button>
+            </div>
+        <% } %>
+    </div>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Election result</title>
+</head>
+<body class="bg-gray-50">
+    <nav class="p-6 bg-sky-200">
+        <div class="container flex flex-wrap items-center justify-between mx-auto bg-white/30 p-4">
+          <a href="/" class="flex items-center">
+            <span class="self-center text-xl font-semibold whitespace-nowrap text-black  ">Voting System</span>
+          </a>  
+        </div>        
+    </nav>  
+    <div class=" flex  text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-6 sm:py-12 px-20">
+        <div class="w-full">
+            <div>
+                <% if (messages && messages.error && messages.error.length > 0) { %>
+                    <% for(var i=0; i<messages.error.length; i++) { %>
+                        <p class="bg-purple-100 my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
+                    <% } %>
+                <% } %>
+            </div>
+            <div class="flex flex-col gap-6 bg-orange-100 p-2">
+                <h3 class="text-4xl my-4 font-medium bg-sky-100 p-3 uppercase text-center ml-2 mr-2 shadow-md font-light">Election ended</h3>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

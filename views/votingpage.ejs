@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title><%= title %></title>
+</head>
+<body class="bg-gray-50">
+    <nav class="p-4 bg-orange-200">
+        <div class="container flex flex-wrap items-center justify-between mx-auto bg-white/30 p-4">
+          <a href="/" class="flex items-center">
+            <span class="self-center text-2xl font-light whitespace-nowrap text-black text-center uppercase">Voting System</span>
+          </a> 
+        </div>         
+    </nav> 
+    <div class=" flex  text-gray-800 antialiased flex-col  overflow-hidden bg-gray-50 py-6 sm:py-12 px-20">
+        <div class="w-full">
+            <div class="flex justify-between">
+                <span class="text-4xl my-4 font-light bg-orange-200 shadow-md p-3 uppercase text-center "><%= title %></span>
+            </div>
+            <div>
+                <% if (messages && messages.error && messages.error.length > 0) { %>
+                    <% for(var i=0; i<messages.error.length; i++) { %>
+                        <p class="bg-purple-100 my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
+                    <% } %>
+                <% } %>
+            </div>
+            <div class="mt-4 bg-gray-50 shadow-md rounded-lg text-left">                
+                <div class="divide-y divide-solid">
+                    <h2 class="px-10 py-4 bg-gray-200 text-2xl font-light uppercase">vote for given questions</h2>
+                    <div class="pb-4 px-8">
+                        <form action="/onlinelection/<%= customurl %>" method="post" class="divide-y divide-solid">
+                            <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                            <ol class="list-decimal mb-5">
+                                <% for(let i=0; i<questions.length; i++) { %>
+                                    <li class="my-2 list-none">
+                                        <div class="grid grid-cols-17 gap-0 p-2 text-black bg-white/30">
+                                            <div class="col-start-1 col-span-1 border p-1">            
+                                                <p class="font-medium text-1xl text-center "><%= i+1 %></p>                                            
+                                            </div>                                        
+                                            <div class="col-start-2 col-span-8 border p-1 capitalize">
+                                               <h3 class="font-light text-2xl px-4"><%= questions[i].QuestionName %></h3>                                               
+                                            </div>
+                                            <div class="col-start-10 col-span-1 border p-1 capitalize">                                               
+                                                <p class="font-light text-2xl text-center "><%= questions[i].Description %></p>
+                                            </div>
+                                        </div>
+                                        <div class="ml-8">
+                                            <ol class="list-none">
+                                                <% for(let j=0; j<options[i].length; j++) { %>
+                                                        <li class="option-item mt-2 cursor-pointer">
+                                                            <input type="radio" id="<%= options[i][j].id %>" class="cursor-pointer" name="q-<%= questions[i].id %>" value="<%= options[i][j].id %>">
+                                                            <label class="px-1 my-2 cursor-pointer" for="<%= options[i][j].id %>" class="ml-2 text-lg "><%= options[i][j].option %></label>
+                                                        </li>
+                                                <% } %>
+                                            </ol>
+                                        </div>
+                                    </li>
+                                <% } %>
+                            </ol>
+                            <div class="flex py-2">
+                                <button type="submit" class="mt-6 w-fit bg-gray-100 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase">
+                                    Submit vote
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

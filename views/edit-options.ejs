@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="<%= csrfToken %>">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <title>Edit option</title>
+    <script>
+        var token = document.querySelector('meta[name="csrf-token"]').getAttribute("content");
+        function editoption() {
+            let EID = <%= EID %>;
+            let QID = <%= QID %>;
+            let OPID = <%= OPID %>;
+            let option = document.getElementById("option").value;
+            fetch(`/elections/${EID}/questions/${QID}/options/${OPID}/edit`, {
+                method: "put",
+                headers: {"Content-Type":"application/json"},
+                body: JSON.stringify({
+                    "_csrf":token,
+                    "option":option,
+                })
+            }).then((res)=>{
+                if (res.ok) {
+                    window.location.replace(`/elections/${EID}/questions/${QID}`);
+                }
+            }).catch((err)=> console.error(err))
+        }
+    </script>
+</head>
+<body class="bg-orange-50">
+    <div class="relative flex min-h-screen text-gray-800 antialiased flex-col justify-center overflow-hidden bg-blue-200 py-6 sm:py-12">
+        <div class="relative py-3 sm:w-96 mx-auto text-center">
+            <div class="mt-4 bg-gray-100 shadow-md rounded-lg p-3 uppercase ">
+                <span class="text-2xl font-medium font-light text-center">Edit Option For The Question</span>
+            </div>
+            <div>
+                <% if (messages && messages.error && messages.error.length > 0) { %>
+                    <% for(var i=0; i<messages.error.length; i++) { %>
+                        <p class="bg-purple-100 my-3 list-none rounded-md px-4 py-2"><%= messages.error[i] %></p>
+                    <% } %>
+                <% } %>
+            </div>
+            <div class="mt-4 bg-gray-100 shadow-md rounded-lg text-left">
+                <div class="px-8 py-6">
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                    <label for="option" class="block mt-3 font-semibold">Option</label>
+                    <input value="<%= option %>" id="option" name="option" type="text" placeholder="Option" class="border w-full h-5 px-3 py-5 mt-2 hover:outline-none focus:outline-none focus:ring-indigo-500 focus:ring-1 rounded-md" required>
+                    <button class="mt-6 w-full bg-gray-50 shadow-md text-black text-2xl font-medium font-light py-1 px-6 rounded-md hover:bg-black hover:text-white uppercase" onclick="editoption()">Update option</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
