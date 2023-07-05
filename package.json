@@ -1,22 +1,12 @@
 {
-  "name": "wd11-ashish",
+  "name": "ashishfinalproject-main",
   "version": "1.0.0",
-  "description": "ashish final project",
   "main": "runserver.js",
   "scripts": {
     "start": "nodemon runserver.js",
-    "start:prod": "node runserver.js",
-    "pretest": "NODE_ENV=test npx sequelize-cli db:drop && NODE_ENV=test npx sequelize-cli db:create",
-    "test": "NODE_ENV=test jest --detectOpenHandles",
-    "prepare": "husky install"
+    "start:prod": "node runserver.js"    
   },
-  "author": "ashish",
-  "lint-staged": {
-    "*.js": [
-      "eslint",
-      "prettier --write ."
-    ]
-  },  
+  "author": "",  
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.0",
@@ -45,5 +35,4 @@
     "sequelize-cli": "^6.5.2",
     "supertest": "^6.3.3"
   }
-  
 }

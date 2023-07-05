@@ -12,7 +12,7 @@ password feature is available for both election admin and voter,create a custom 
 
 Deployed App link: 
 
-https://final-project-wd-11.onrender.com
+
 
 ## Demo link
 
