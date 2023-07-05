@@ -11,7 +11,7 @@ password feature is available for both election admin and voter,create a custom 
 [![MIT License](https://img.shields.io/badge/Platform-Deployed-green.svg)](https://choosealicense.com/licenses/mit/)
 
 Deployed App link: 
-
+https://votingplatform.onrender.com
 
 
 ## Demo link
